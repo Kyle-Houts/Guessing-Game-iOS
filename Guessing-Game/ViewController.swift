@@ -6,11 +6,13 @@
 //  Copyright © 2018 Kyle Houts. All rights reserved.
 //
 
+
+
 import UIKit
 
 class ViewController: UIViewController {
-
-
+    
+    
     @IBOutlet weak var guessingGameTitle: UILabel!
     
     @IBOutlet weak var guessTextbox: UITextField!
@@ -35,10 +37,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var upperValueTextbox: UITextField!
     
-    @IBOutlet weak var backgroundChanger: UISegmentedControl!
-
-    
-    
+    @IBOutlet weak var upperValueLabel: UILabel!
     var getPlayAgainInput: String?
     
     var correctNumber = Int(arc4random_uniform(100)) + 1
@@ -53,14 +52,24 @@ class ViewController: UIViewController {
     
     var numberOfTimesPlayed = 0
     
+    var backgroundColor: UIColor?
     
+    var upperValueInput = 100
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //Calling function to hide keyboard
         self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view, typically from a nib.
-            backgroundChanger.selectedSegmentIndex = 0
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let color = backgroundColor {
+            self.view.backgroundColor = backgroundColor
+        } else {
+            self.view.backgroundColor = UIColor.white
+        }
     }
     
     
@@ -71,17 +80,29 @@ class ViewController: UIViewController {
         
         guessStatusLabel.text = "Good luck!"
         
-
-        
-        
-//        if upperValueTextbox == nil {
-//            self.correctNumber == correctNumber
-//        } else if Int(upperValueTextbox!) < 1 || Int(upperValueTextbox!) > 100 {
-//            guessStatusLabel.text = "Please enter an upper value between 1 and 100"
-//        } else if upperValueTextbox.text
         
         
         
+        //        if upperValueTextbox == nil {
+        //            self.correctNumber == correctNumber
+        //        } else if Int(upperValueTextbox!) < 1 || Int(upperValueTextbox!) > 100 {
+        //            guessStatusLabel.text = "Please enter an upper value between 1 and 100"
+        //        } else if upperValueTextbox.text
+        
+        
+        let upperValueInput = upperValueTextbox.text
+        guard let upperValueInt = Int(upperValueInput!) else {
+            //They haven't entered a number
+            upperValueLabel.text = "Please enter a valid number"
+            return
+        }
+        
+        if upperValueInt < 1 || upperValueInt > 100 {
+            upperValueLabel.text = "Invalid number entered. Please try again."
+            return
+        } else {
+            var correctNumber = Int(arc4random_uniform(UInt32(upperValueInt)))
+        }
         
         
         let input = guessTextbox.text
@@ -90,7 +111,7 @@ class ViewController: UIViewController {
             guessStatusLabel.text = "Please enter a valid number"
             return
         }
-
+        
         if guessInt < 1 || guessInt > 100 {
             guessStatusLabel.text = "Invalid number entered. Please try again."
             return
@@ -103,7 +124,7 @@ class ViewController: UIViewController {
                 guessStatusLabel.textColor = UIColor(hue: 0.35, saturation: 1, brightness: 0.87, alpha: 1.0)
                 guessStatusLabel.text = "You win! Click Reset game to play again!"
             } else if guessInt > correctNumber {
-                  guessStatusLabel.textColor = UIColor(hue: 0.675, saturation: 1, brightness: 0.81, alpha: 1.0)
+                guessStatusLabel.textColor = UIColor(hue: 0.675, saturation: 1, brightness: 0.81, alpha: 1.0)
                 numberOfTries -= 1
                 remainingAttemptsNumber.text = String(numberOfTries)
                 guessStatusLabel.text = "You're guess is too high. You have \(numberOfTries) left"
@@ -134,23 +155,33 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func backgroundController(_ sender: Any) {
-        
-        if backgroundChanger.selectedSegmentIndex == 0 {
-            self.view.backgroundColor = UIColor.blue
-        } else if backgroundChanger.selectedSegmentIndex == 1 {
-            self.view.backgroundColor = UIColor.purple
-        } else if
-            backgroundChanger.selectedSegmentIndex == 2 {
-            self.view.backgroundColor = UIColor.green
-        } else if backgroundChanger.selectedSegmentIndex == 3 {
-            self.view.backgroundColor = UIColor.red
-        } else if backgroundChanger.selectedSegmentIndex == 4 {
-            self.view.backgroundColor = UIColor.orange
-        }
-        
+    func background0() {
+        self.view.backgroundColor = UIColor.blue
     }
+    
+    
+    func background1() {
+        self.view.backgroundColor = UIColor.purple
+    }
+    
+    
+    
+    func background2() {
+        self.view.backgroundColor = UIColor.green
+    }
+    
+    
+    func background3() {
+        self.view.backgroundColor = UIColor.red
+    }
+    
+    
+    func background4() {
+        self.view.backgroundColor = UIColor.orange
+    }
+    
 }
+
 
 
 
